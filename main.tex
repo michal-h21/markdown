@@ -1,0 +1,41 @@
+\documentclass{beamer}
+\usetheme[faculty=fi]{fibeamer}
+
+\usepackage{polyglossia}
+\setmainlanguage{english}
+
+\usepackage[hybrid]{markdown}
+\markdownSetup{
+  renderers = {
+  }
+}
+
+\title{A \raisebox{-1.7mm}{\includegraphics[scale=0.2]{markdown-mark}}\ Interpreter for \TeX}
+\subtitle{Project MUNI 33 / 12 2015}
+\author{Vít Novotný}
+\frenchspacing
+\begin{document}
+\frame{\maketitle}
+
+\AtBeginSection[]{% Print an outline at the beginning of sections
+  \begin{frame}<beamer>
+    \frametitle{Outline for Section \thesection}
+    \tableofcontents[currentsection]
+  \end{frame}}
+
+\begin{darkframes}
+\begin{frame}{Table of Contents}
+  \tableofcontents
+\end{frame}
+\begin{markdown}
+# Introduction
+## The Case for Lightweight Markup
+## Existing Solutions
+# The Markdown Package
+## Context-Sensitive Parsing
+## Lua\TeX{} and Lunamark
+## User Interface
+# Conclusion
+\end{markdown}
+\end{darkframes}
+\end{document}
