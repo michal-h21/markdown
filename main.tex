@@ -124,6 +124,14 @@
 \usepackage{minted}
 \usemintedstyle{monokai}
 \frenchspacing
+\usepackage{pgffor}
+\newcommand\becomes{%
+  \vspace{1ex}%
+  \foreach\n in {1,...,29}{%
+    \textdownarrow
+  }%
+  \vspace{1ex}%
+}
 
 % Metadata
 \title{A \raisebox{-1.7mm}{\includegraphics[scale=0.2]{markdown-mark}}\ Interpreter for \TeX}
@@ -131,15 +139,10 @@
 \author{Vít Novotný}
 \begin{document}
 \frame{\maketitle}
-
-\AtBeginSection[]{% Print an outline at the beginning of sections
-  \begin{frame}<beamer>
-    \frametitle{Outline for Section \thesection}
-    \tableofcontents[currentsection]
-  \end{frame}}
+\AtBeginSection[]{\frame{\sectionpage}}
 
 \begin{darkframes}
-\begin{frame}{Table of Contents}
+\begin{frame}{\contentsname}
   \tableofcontents
 \end{frame}
 \begin{markdown}
@@ -156,17 +159,17 @@
     * @downey16 is 21\,\% markup.
   2. Zero Sandboxing Support
     * The document you are typesetting may not compile.
-    ```tex
-    … a file named \texttt{evil_underscores.tex} …
-    ```
+      ```tex
+      … a file named \texttt{evil_underscores.tex} …
+      ```
     * The document you are typesetting may halt.
-    ```tex
-    \newcommand\whiletrue{\whiletrue} \whiletrue
-    ```
+      ```tex
+      \def\whiletrue{\whiletrue} \whiletrue
+      ```
     * The document you are typesetting may access the system shell.
-    ```tex
-    \immediate\write18{sudo rm -rf /}
-    ```
+      ```tex
+      \immediate\write18{sudo rm -rf /}
+      ```
   3. Steep Learning Curve
 
 \end{frame}
@@ -179,7 +182,7 @@
 > *as readable as possible*. The idea is that a Markdown-formatted document
 > should be _publishable as-is, as plain text_, without looking like it’s been
 > marked up with tags or formatting instructions. While Markdown’s syntax has
-> been influenced by several existing text-to-html filters, the single
+> been influenced by several existing text-to-HTML filters, the single
 > biggest source of inspiration for Markdown’s syntax is *the format of plain
 > text email*.
 
@@ -192,7 +195,7 @@
 #### The Language of Markdown
 
 ```markdown
-# This is a level one title #
+# This is a level one heading
 This is a text paragraph with _emphasis_.
 > This paragraph will show as a quote.
 
@@ -219,7 +222,7 @@ This is a text paragraph with _emphasis_.
     * A Markdown document converted to \TeX{} will always compile.
     * The document may neither halt nor access the shell.
   3. Hybrid Markup Support
-    * Markdown was designed to supplement html, not replace it.
+    * Markdown was designed to supplement HTML, not replace it.
     * Structurally simple sections can use pure Markdown, complex sections
       may combine Markdown and the host markup.
   4. Mild Learning Curve
@@ -227,11 +230,79 @@ This is a text paragraph with _emphasis_.
 \end{frame}
 
 ## Existing Solutions
+
+\begin{frame}
+
+### \subsecname
+#### The Swiss Army Knife of Pandoc
+
+> If you need to convert files from one markup format into another,
+> Pandoc is your _swiss-army knife_.
+
+\hfill --- @macfarlane16, emphasis mine
+
+  * A multi-target publishing software.
+  * Supports tens of markup languages (Markdown, \LaTeX, HTML, XML Docbook)
+    and output formats (ODF, OOXML, PDF).
+  * The use of Pandoc for the preparation of \LaTeX{} documents has been
+    described by @dominici14\.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### What is Wrong with Pandoc?
+
+  1. No Way to Change Output Markup
+    ```markdown
+    # Heading {#link}
+    This is [a link](#link).
+    ```
+    \becomes
+    ```tex
+    \hypertarget{link}{\section{Heading}\label{link}}
+    This is \protect\hyperlink{link}{a link}.
+    ```
+  2. Not a Part of \TeX{} Distributions
+    * Documents no longer produce stable output even if the \TeX{}
+      distribution version is held constant.
+    * Markdown documents cannot be directly edited at collaborative \TeX{}
+      platforms such as Share\LaTeX{} or Overleaf.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### What is Wrong with Pandoc?
+
+  3. Half-hybrid, Half-sandboxed
+    * The input is heuristically parsed and sanitized:
+      ```tex
+      This {will} 2^n \begin{get} s~nitized and \this{will}
+      not \begin{equation}2^n\end{equation} $2^n$.
+      ```
+      \becomes
+      ```tex
+      This \{will\} 2\^{}n \textbackslash{}begin\{get\}
+      s\textasciitilde{}nitized and \this{will} not
+      \begin{equation}2^n\end{equation} \(2^n\).
+      ```
+    * Malicious input such as
+      ```tex
+      \def\shell{18} \immediate\write\shell{sudo rm -rf /}
+      ```
+      is left alone by Pandoc.
+
+\end{frame}
+
 # The Markdown Package
 ## Context-Sensitive Parsing
 ## Lua\TeX{} and Lunamark
-## User Interface
+## Using Markdown from \LaTeX
+## The Rest of the Story
 # Conclusion
+## Reception by the Community
+## Future Development
 # Bibliography
 
 \begin{frame}[allowframebreaks]
