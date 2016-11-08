@@ -1,29 +1,134 @@
 \documentclass{beamer}
 \usetheme[faculty=fi]{fibeamer}
 
+% Localization
 \usepackage{polyglossia}
 \setmainlanguage{english}
 
-\usepackage{minted}
-\usemintedstyle{monokai}
-
-\usepackage[hybrid,footnotes,fencedCode]{markdown}
+% Markdown setup
+\usepackage[
+  hybrid,
+  footnotes,
+  fencedCode,
+  citations,
+]{markdown}
 \markdownSetup{
   renderers = {
+    emphasis = {\alert{#1}},
     headingOne = {\section{#1}},
     headingTwo = {\subsection{#1}},
     headingThree = {\frametitle{#1}},
     headingFour = {\framesubtitle{#1}},
     footnote = {\footnote[frame]{#1}},
-    link = {\kern-.5ex\footnote[frame]{See \url{#3}}},
-    inputFencedCode = {\inputminted{\ifx\relax#2\relax tex\else #2\fi}{#1}},
+    horizontalRule = {\framebreak},
   }
 }
 
+% Bibliography setup
+\usepackage{filecontents}
+\begin{filecontents}{main.bib}
+
+@BOOK{knuth86,
+  author        =   {Knuth, Donald Ervin},
+  year          =   {1986},
+  title         =   {The \TeX book},
+  edition       =   {3},
+  isbn          =   {0-201-13447-0},
+  pagetotal     =   {ix, 479},
+  publisher     =   {Addison-Westley},
+  langid        =   {english},
+  url           =   {https://mirrors.ctan.org/systems/knuth/dist/tex/texbook.tex},
+  urldate       =   {2016-11-08},
+}
+
+@ONLINE{gruber13,
+  author        =   {John Gruber},
+  year          =   {2013},
+  title         =   {Markdown},
+  urldate       =   {2016-08-15},
+  url           =   {https://daringfireball.net/projects/markdown/}, 
+  langid        =   {english},
+}
+
+@ARTICLE{dominici14,
+  author        =   {Massimiliano Dominici},
+  year          =   {2014},
+  title         =   {An overview of Pandoc},
+  journaltitle  =   {TUGboat},
+  volume        =   {35},
+  number        =   {1},
+  urldate       =   {2016-08-15},
+  url           =   {http://tug.org/TUGboat/tb35-1/tb109dominici.pdf},
+  pages         =   {44--50},
+  issn          =   {0896-3207},
+  langid        =   {english},
+}
+
+@ONLINE{macfarlane16,
+  author        =   {John MacFarlane},
+  year          =   {2016},
+  title         =   {Pandoc},
+  subtitle      =   {a universal document converter},
+  urldate       =   {2016-08-15},
+  url           =   {http://pandoc.org/}, 
+  langid        =   {english}}
+
+@BOOK{downey16,
+  author        =   {Downey, Allen B. and Mayfield, Chris},
+  year          =   {2016},
+  title         =   {Think Java},
+  subtitle      =   {How to Think Like a Computer Scientist},
+  version       =   {6.1.0},
+  pagetotal     =   {xviii, 273},
+  publisher     =   {Green Tea Press},
+  langid        =   {english},
+  url           =   {https://thinkjava.org/},
+  urldate       =   {2016-11-08},
+}
+
+@BOOK{gillespie16,
+  author        =   {Gillespie, Colin and Lovelace, Robin},
+  year          =   {2016},
+  title         =   {Efficient R programming},
+  isbn          =   {978-1-4919-5078-4},
+  pagetotal     =   {204},
+  publisher     =   {O'Reilly Media},
+  langid        =   {english},
+  url           =   {https://github.com/hadley/r4ds/},
+  urldate       =   {2016-11-08},
+}
+
+@BOOK{grolemund16,
+  author        =   {Grolemund, Garrett and Wickham, Hadley},
+  year          =   {2016},
+  title         =   {R for Data Science},
+  isbn          =   {978-1-4919-1039-9},
+  pagetotal     =   {518},
+  publisher     =   {O'Reilly Media},
+  langid        =   {english},
+  url           =   {https://github.com/hadley/r4ds/},
+  urldate       =   {2016-11-08},
+}
+
+\end{filecontents}
+\usepackage[
+  backend=biber,
+  style=iso-authoryear,
+  sorting=nty,
+  autolang=other,
+  sortlocale=auto,
+]{biblatex}
+\addbibresource{main.bib}
+
+% Miscellaneous packages and other setup
+\usepackage{minted}
+\usemintedstyle{monokai}
+\frenchspacing
+
+% Metadata
 \title{A \raisebox{-1.7mm}{\includegraphics[scale=0.2]{markdown-mark}}\ Interpreter for \TeX}
 \subtitle{Project MUNI 33 / 12 2015}
 \author{Vít Novotný}
-\frenchspacing
 \begin{document}
 \frame{\maketitle}
 
@@ -40,32 +145,100 @@
 \begin{markdown}
 # Introduction
 ## The Case for Lightweight Markup
+
 \begin{frame}
+
 ### \subsecname
 #### What is Wrong with \TeX?
 
   1. High Markup to Text Ratio
-    * The \TeX book <http://mirrors.ctan.org/systems/knuth/dist/tex/texbook.tex> by Donald E. Knuth is 22\,\% markup.
-    * Think Java <http://github.com/AllenDowney/ThinkJava> by Allen Downey and Chris Mayfield is 21\,\% markup.
-    %* Efficient R<https://github.com/csgillespie/efficientR/> by Colin Gillespie and Robin Lovelace is 8\,\% markup
+    * @knuth86 is 22\,\% markup.
+    * @downey16 is 21\,\% markup.
   2. Zero Sandboxing Support
     * The document you are typesetting may not compile.
+    ```tex
+    … a file named \texttt{evil_underscores.tex} …
     ```
-    … the file is named \texttt{evil_underscores.tex} …
+    * The document you are typesetting may halt.
+    ```tex
+    \newcommand\whiletrue{\whiletrue} \whiletrue
     ```
     * The document you are typesetting may access the system shell.
+    ```tex
+    \immediate\write18{sudo rm -rf /}
     ```
-    \immediate\write18{rm -rf /} % Don't try this at home.
-    ```
-  3. Moderately Steep Learning Curve
+  3. Steep Learning Curve
 
 \end{frame}
+\begin{frame}
+
+### \subsecname
+#### The Language of Markdown
+
+> The overriding design goal for Markdown’s formatting syntax is to make it
+> *as readable as possible*. The idea is that a Markdown-formatted document
+> should be _publishable as-is, as plain text_, without looking like it’s been
+> marked up with tags or formatting instructions. While Markdown’s syntax has
+> been influenced by several existing text-to-html filters, the single
+> biggest source of inspiration for Markdown’s syntax is *the format of plain
+> text email*.
+
+\hfill --- @gruber13, emphasis mine
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### The Language of Markdown
+
+```markdown
+# This is a level one title #
+This is a text paragraph with _emphasis_.
+> This paragraph will show as a quote.
+
+␣␣␣␣This is is a source code example.
+
+* First item with **strong emphasis**
+* Second item with a [link](http://link.com/ "Title")
+
+1. First item with `inline code`.
+2. Second item with an ![image](image.png "Title")
+```
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### How is Markdown Useful?
+
+  1. Minimal Markup to Text Ratio
+    * Recall: @knuth86 and @downey16 are _\textasciitilde 22\,\% markup_.
+    * @gillespie16 is 5.5\,\% markup.
+    * @grolemund16 is 3.8\,\% markup.
+  2. Sandboxing Support
+    * A Markdown document converted to \TeX{} will always compile.
+    * The document may neither halt nor access the shell.
+  3. Hybrid Markup Support
+    * Markdown was designed to supplement html, not replace it.
+    * Structurally simple sections can use pure Markdown, complex sections
+      may combine Markdown and the host markup.
+  4. Mild Learning Curve
+
+\end{frame}
+
 ## Existing Solutions
 # The Markdown Package
 ## Context-Sensitive Parsing
 ## Lua\TeX{} and Lunamark
 ## User Interface
 # Conclusion
+# Bibliography
+
+\begin{frame}[allowframebreaks]
+### \secname
+\printbibliography
+\end{frame}
+
 \end{markdown}
 \end{darkframes}
 \end{document}
