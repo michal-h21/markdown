@@ -4,9 +4,19 @@
 \usepackage{polyglossia}
 \setmainlanguage{english}
 
-\usepackage[hybrid]{markdown}
+\usepackage{minted}
+\usemintedstyle{monokai}
+
+\usepackage[hybrid,footnotes,fencedCode]{markdown}
 \markdownSetup{
   renderers = {
+    headingOne = {\section{#1}},
+    headingTwo = {\subsection{#1}},
+    headingThree = {\frametitle{#1}},
+    headingFour = {\framesubtitle{#1}},
+    footnote = {\footnote[frame]{#1}},
+    link = {\kern-.5ex\footnote[frame]{See \url{#3}}},
+    inputFencedCode = {\inputminted{\ifx\relax#2\relax tex\else #2\fi}{#1}},
   }
 }
 
@@ -30,6 +40,26 @@
 \begin{markdown}
 # Introduction
 ## The Case for Lightweight Markup
+\begin{frame}
+### \subsecname
+#### What is Wrong with \TeX?
+
+  1. High Markup to Text Ratio
+    * The \TeX book <http://mirrors.ctan.org/systems/knuth/dist/tex/texbook.tex> by Donald E. Knuth is 22\,\% markup.
+    * Think Java <http://github.com/AllenDowney/ThinkJava> by Allen Downey and Chris Mayfield is 21\,\% markup.
+    %* Efficient R<https://github.com/csgillespie/efficientR/> by Colin Gillespie and Robin Lovelace is 8\,\% markup
+  2. Zero Sandboxing Support
+    * The document you are typesetting may not compile.
+    ```
+    … the file is named \texttt{evil_underscores.tex} …
+    ```
+    * The document you are typesetting may access the system shell.
+    ```
+    \immediate\write18{rm -rf /} % Don't try this at home.
+    ```
+  3. Moderately Steep Learning Curve
+
+\end{frame}
 ## Existing Solutions
 # The Markdown Package
 ## Context-Sensitive Parsing
