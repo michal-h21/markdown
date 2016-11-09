@@ -11,6 +11,7 @@
   footnotes,
   fencedCode,
   citations,
+  definitionLists,
 ]{markdown}
 \markdownSetup{
   renderers = {
@@ -20,7 +21,6 @@
     headingThree = {\frametitle{#1}},
     headingFour = {\framesubtitle{#1}},
     footnote = {\footnote[frame]{#1}},
-    horizontalRule = {\framebreak},
   }
 }
 
@@ -39,6 +39,53 @@
   langid        =   {english},
   url           =   {https://mirrors.ctan.org/systems/knuth/dist/tex/texbook.tex},
   urldate       =   {2016-11-08},
+}
+
+@ARTICLE{carliste00,
+  author        =   {David Carlisle},
+  year          =   {2000},
+  title         =   {XML\TeX},
+  subtitle      =   {A non-validating (and not 100\% conforming) namespace-aware XML parser implemented in \TeX},
+  journaltitle  =   {TUGboat},
+  volume        =   {21},
+  number        =   {3},
+  urldate       =   {2016-11-08},
+  url           =   {https://www.tug.org/TUGboat/tb21-3/tb68carl.pdf},
+  pages         =   {193--199},
+  issn          =   {0896-3207},
+  langid        =   {english},
+}
+
+@INPROCEEDINGS{ford02,
+  author        =   {Bryan Ford},
+  year          =   {2002},
+  title         =   {Packrat Parsing},
+  subtitle      =   {Simple, powerful, lazy, linear time, functional pearl},
+  booktitle     =   {ACM SIGPLAN Notices},
+  volume        =   {37},
+  number        =   {9},
+  organization  =   {ACM},
+  pages         =   {36--47},
+  urldate       =   {2016-11-08},
+  url           =   {http://bford.info/pub/lang/packrat-icfp02.pdf},
+  doi           =   {10.1145/581478.581483},
+  langid        =   {english},
+}
+
+@INPROCEEDINGS{ford04,
+  author        =   {Bryan Ford},
+  year          =   {2004},
+  title         =   {Parsing expression grammars},
+  subtitle      =   {A recognition-based syntactic foundation},
+  booktitle     =   {ACM SIGPLAN Notices},
+  volume        =   {39},
+  number        =   {1},
+  organization  =   {ACM},
+  pages         =   {111--122},
+  urldate       =   {2016-08-16},
+  url           =   {https://pdos.csail.mit.edu/papers/parsing:popl04.pdf},
+  doi           =   {10.1145/964001.964011},
+  langid        =   {english},
 }
 
 @ONLINE{gruber13,
@@ -64,13 +111,49 @@
   langid        =   {english},
 }
 
-@ONLINE{macfarlane16,
+@ONLINE{macfarlane16-1,
   author        =   {John MacFarlane},
   year          =   {2016},
   title         =   {Pandoc},
   subtitle      =   {a universal document converter},
   urldate       =   {2016-08-15},
   url           =   {http://pandoc.org/}, 
+  langid        =   {english}}
+
+@ONLINE{macfarlane16-2,
+  author        =   {John MacFarlane},
+  year          =   {2016},
+  title         =   {Lunamark},
+  subtitle      =   {Lua library for conversion between markup formats},
+  urldate       =   {2016-08-15},
+  url           =   {https://github.com/jgm/lunamark}, 
+  langid        =   {english}}
+
+@ONLINE{luateam16,
+  author        =   {{Lua Team}},
+  year          =   {2016},
+  title         =   {Lua},
+  subtitle      =   {About},
+  urldate       =   {2016-08-15},
+  url           =   {https://www.lua.org/about.html},
+  langid        =   {english}}
+
+@ONLINE{luatex16,
+  author        =   {{Lua\TeX{} Team}},
+  year          =   {2016},
+  title         =   {Lua\TeX},
+  subtitle      =   {Welcome},
+  urldate       =   {2016-08-15},
+  url           =   {http://luatex.org/},
+  langid        =   {english}}
+
+@ONLINE{overleaf16,
+  author        =   {{Overleaf}},
+  year          =   {2016},
+  title         =   {Two great examples of how to use \#markdown with @Overleaf
+                     -- thanks @liantze!},
+  urldate       =   {2016-08-15},
+  url           =   {https://twitter.com/overleaf/status/763395560682364928},
   langid        =   {english}}
 
 @BOOK{downey16,
@@ -110,6 +193,53 @@
   urldate       =   {2016-11-08},
 }
 
+@MANUAL{l3proj16,
+  author        =   {{\LaTeX3 Project}},
+  date          =   {2016-10-19},
+  title         =   {The l3regex package},
+  subtitle      =   {regular expressions in \TeX},
+  urldate       =   {2016-11-08},
+  url           =   {http://mirrors.ctan.org/macros/latex/contrib/l3experimental/l3regex.pdf},
+  langid        =   {english}}
+
+@ONLINE{novotny16-1,
+  author        =   {Novotný, Vít},
+  year          =   {2016},
+  title         =   {Markdown},
+  subtitle      =   {A package for converting and rendering markdown documents
+                     inside \TeX{}},
+  urldate       =   {2016-08-15},
+  note          =   {Available from: \url{http://ctan.org/pkg/markdown},
+                     \url{https://github.com/Witiko/markdown}, and
+                     \url{https://gitlab.fi.muni.cz/xnovot32/markdown}},
+  langid        =   {english}}
+
+@MANUAL{novotny16-2,
+  author        =   {Novotný, Vít},
+  year          =   {2016},
+  title         =   {A Markdown Interpreter for \TeX{}},
+  url           =   {http://mirrors.ctan.org/macros/generic/markdown/markdown.pdf},
+  urldate       =   {2016-08-17},
+  langid        =   {english}}
+
+@ONLINE{novotny16-3,
+  author        =   {Novotný, Vít},
+  year          =   {2016},
+  title         =   {Added support for Pandoc-style citations},
+  urldate       =   {2016-08-15},
+  url           =   {https://github.com/jgm/lunamark/pull/20},
+  langid        =   {english}}
+
+@ARTICLE{fenn16,
+  author        =   {Jürgen Fenn},
+  year          =   {2016},
+  title         =   {Neue Pakete auf CTAN},
+  journaltitle  =   {Die \TeX nische Komödie},
+  number        =   {3/2016},
+  issn          =   {1434-5897},
+  langid        =   {german},
+}
+
 \end{filecontents}
 \usepackage[
   backend=biber,
@@ -127,14 +257,16 @@
 \usepackage{pgffor}
 \newcommand\becomes{%
   \vspace{1ex}%
-  \foreach\n in {1,...,29}{%
+  \foreach\n in {1,...,30}{%
     \textdownarrow
   }%
   \vspace{1ex}%
 }
 
 % Metadata
-\title{A \raisebox{-1.7mm}{\includegraphics[scale=0.2]{markdown-mark}}\ Interpreter for \TeX}
+\title{A \texorpdfstring{
+  \raisebox{-1.7mm}{\includegraphics[scale=0.2]{markdown-mark}}
+}{Markdown}\ Interpreter for \TeX}
 \subtitle{Project MUNI 33 / 12 2015}
 \author{Vít Novotný}
 \begin{document}
@@ -145,7 +277,7 @@
 \begin{frame}{\contentsname}
   \tableofcontents
 \end{frame}
-\begin{markdown}
+\markdownBegin
 # Introduction
 ## The Case for Lightweight Markup
 
@@ -239,7 +371,7 @@ This is a text paragraph with _emphasis_.
 > If you need to convert files from one markup format into another,
 > Pandoc is your _swiss-army knife_.
 
-\hfill --- @macfarlane16, emphasis mine
+\hfill --- @macfarlane16-1, emphasis mine
 
   * A multi-target publishing software.
   * Supports tens of markup languages (Markdown, \LaTeX, HTML, XML Docbook)
@@ -296,13 +428,230 @@ This is a text paragraph with _emphasis_.
 \end{frame}
 
 # The Markdown Package
-## Context-Sensitive Parsing
-## Lua\TeX{} and Lunamark
-## Using Markdown from \LaTeX
-## The Rest of the Story
+## Building a Parser
+
+\begin{frame}
+
+### \subsecname
+#### How Feasible is \TeX?
+
+There exist formal language parsers written solely in \TeX. These parsers
+recognize regular [@l3proj16] and context-free LL(1) languages [@carliste00].
+Markdown is not context-free:
+```
+``There is a literal backtick (`) here.``
+```
+and a parser needs to be able to backtrack over the entire input:
+```
+[this is not a link](http://link.com/ "Title"
+```
+
+Implementing a recursive-descent parser with backtracking in \TeX{} is
+possible, but generally a bad idea:
+
+  * Difficult to Maintain, Highly Unidiomatic
+  * Lack of Efficient Data Structures
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Can We Use Lua Instead of \TeX?
+
+> Lua is a powerful, efficient, lightweight, embeddable scripting language. It
+> supports procedural programming, object-oriented programming, functional
+> programming, data-driven programming, and data description. 
+
+\hfill --- @luateam16
+\vfill
+
+> Lua\TeX{} is an extended version of pdf\TeX{} using Lua as an embedded
+> scripting language. […] In September 2016 we released version 1.0 which
+> will be on \TeX live 2017.
+
+\hfill --- @luatex16
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Can We Use Lua Instead of \TeX?
+
+  * With Lua\TeX, we can directly execute Lua code:
+    ```tex
+    1 + 2 = \directlua{ tex.sprint(1 + 2) }
+    ```
+  * With pdf\TeX{} and other modern \TeX{} engines, we can spawn a shell and
+    execute the Lua code in a separate process:
+    ```tex
+    1 + 2 = \newwrite\script
+    \immediate\openout\script=script.lua
+    \immediate\write\script{ print(1 + 2) }%
+    \immediate\closeout\script
+    \immediate\write18{texlua script.lua > output.tex}%
+    \input output.tex
+    ```
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Enter the Lunamark
+
+  * Lunamark [@macfarlane16-2] is a Markdown parser for Lua.
+  * The parser is written using a Parsing Expression Grammar (PEG) through the
+    LPeg C library.
+    * PEGs are CFGs with ordered choice; as a corrolary, any PEG is
+      unambiguous. [@ford04] The parse tree for any PEG $G$ and an input word
+      $u$ can be computed in linear time relative to $|u|$ via „packrat
+      parsing“. [@ford02]
+  * All the libraries used by the parser were either statically compiled
+    into Lua\TeX, or unneeded.
+  * The library has been released under the Expat (MIT) License.
+
+\end{frame}
+
+## Using Markdown from Within \LaTeX
+
+\begin{frame}
+
+### \subsecname
+#### The Hybrid and Sandbox Modes
+
+```tex
+\documentclass{article}
+\usepackage{markdown}
+\begin{document}
+\begin{markdown*}{hybrid}
+  Foo bar \TeX{} $2^n$.
+\end{markdown*}
+\begin{markdown}
+  Foo bar \TeX{} $2^n$.
+\end{markdown}
+\end{document}
+```
+
+Foo bar \TeX{} $2^n$. Foo bar \markdownRendererBackslash TeX\markdownRendererLeftBrace{}\markdownRendererRightBrace{} \markdownRendererDollarSign{}2\markdownRendererCircumflex{}n\markdownRendererDollarSign{}.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Mapping Markdown Tokens to \TeX{} Macros
+
+```tex
+\documentclass{article}
+\usepackage{markdown}
+\markdownSetup{renderers = {
+  link = {#1\footnote{See \url{#3} (#4)}},
+}}
+\begin{document}
+\begin{markdown}
+  Foo [bar](http://link.com "Link").
+\end{markdown}
+\end{document}
+```
+
+Foo bar\footnote[frame]{See \url{http://link.com} (Link)}.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Syntax Extensions
+
+  * Some syntax extensions were already supported by Lunamark:
+    * footnotes,
+    * definition lists,
+    * hash enumerators.
+  * New syntax extensions were added as a part of the project:
+    * citations,
+    * fenced code blocks.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Syntax Extensions -- `\markdownSetup{citations}`
+
+```tex
+Here is a parenthetical citation [@knuth86] and
+a string of several [see @knuth86, pp. 33-35;
+also @gruber13, chap. 1].
+
+Here is a text citation @knuth86 and a string of
+several @knuth86 [pp. 33-35; @gruber13, chap. 1].
+```
+
+\vfill
+  
+Here is a parenthetical citation [@knuth86] and
+a string of several [see @knuth86, pp. 33-35;
+also @gruber13, chap. 1].
+
+Here is a text citation @knuth86 and a string of
+several @knuth86 [pp. 33-35; @gruber13, chap. 1].
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Syntax Extensions -- `\markdownSetup{fencedCode}`
+
+```
+~~~ js
+if (a > 3) {
+  moveShip(5 * gravity, DOWN);
+}
+~~~~~~
+```
+
+\vfill
+
+~~~ js
+if (a > 3) {
+  moveShip(5 * gravity, DOWN);
+}
+~~~~~~
+
+\end{frame}
+
 # Conclusion
-## Reception by the Community
-## Future Development
+
+\begin{frame}
+
+### \secname
+#### The Missing Pieces of the Puzzle
+
+  * Apart from the \LaTeX{} interface, the package also exposes Lua, plain
+    \TeX{} and Con\TeX t interfaces.
+  * The package includes 82 pages of user and technical documentation.
+    [@novotny16-2]
+  * A section on writing \LaTeX{} documents in Markdown was added to the
+    fithesis3 sample documents.
+  * The package was released under the \LaTeX{} Project Public License (LPPL)
+    1.3 on the Comprehensive \TeX{} Archive Network (CTAN), GitHub, and the
+    faculty GitLab. [@novotny16-1]
+
+\end{frame}
+\begin{frame}
+
+### \secname
+#### Reception by the Community
+
+  * The syntax extensions were backported to Lunamark and merged by MacFarlane,
+    resulting in a new minor version release of the library (0.5.0).
+    [@novotny16-3]
+  * The package was featured on the twitter profile of Overleaf -- a major
+    online service for preparing \LaTeX{} documents -- along with original
+    example documents. [@overleaf16]
+  * The package was mentioned in the bulletin of the German \TeX{} Users Group
+    (DANTE e.V.). [@fenn16, pp. 43]
+  * An article about the package has been submitted to the bulletin of the
+    Czechoslovak \TeX{} Users Group (CSTUG).
+
+\end{frame}
+
 # Bibliography
 
 \begin{frame}[allowframebreaks]
@@ -310,6 +659,6 @@ This is a text paragraph with _emphasis_.
 \printbibliography
 \end{frame}
 
-\end{markdown}
+\markdownEnd
 \end{darkframes}
 \end{document}
