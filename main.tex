@@ -251,8 +251,12 @@
 \addbibresource{main.bib}
 
 % Miscellaneous packages and other setup
+\ifx\ifdarkframes\undefined
+  \expandafter\newif\csname ifdarkframes\endcsname
+  \darkframestrue
+\fi
 \usepackage{minted}
-\usemintedstyle{monokai}
+\usemintedstyle{\ifdarkframes monokai\else murphy\fi}
 \frenchspacing
 \usepackage{pgffor}
 \newcommand\becomes{%
@@ -264,19 +268,27 @@
 }
 
 % Metadata
-\title{A \texorpdfstring{
-  \raisebox{-1.7mm}{\includegraphics[scale=0.2]{markdown-mark}}
-}{Markdown}\ Interpreter for \TeX}
-\subtitle{Project MUNI 33 / 12 2015}
+\title{
+  A \texorpdfstring{%
+    \raisebox{-1.7mm}{\includegraphics[scale=0.2]{markdown-mark}}%
+  }{Markdown}\ Interpreter for \TeX}
+\subtitle{%
+  Project MUNI 33 / 12 2015
+  \texorpdfstring{\url{https://github.com/witiko/markdown}}{}%
+}
 \author{Vít Novotný}
 \begin{document}
 \frame{\maketitle}
 \AtBeginSection[]{\frame{\sectionpage}}
 
+\ifdarkframes
 \begin{darkframes}
+\fi
+
 \begin{frame}{\contentsname}
   \tableofcontents
 \end{frame}
+
 \markdownBegin
 # Introduction
 ## The Case for Lightweight Markup
@@ -368,8 +380,8 @@ This is a text paragraph with _emphasis_.
 ### \subsecname
 #### The Swiss Army Knife of Pandoc
 
-> If you need to convert files from one markup format into another,
-> Pandoc is your _swiss-army knife_.
+> If you need to _convert files from one markup format into another_,
+> Pandoc is your swiss-army knife.
 
 \hfill --- @macfarlane16-1, emphasis mine
 
@@ -433,7 +445,7 @@ This is a text paragraph with _emphasis_.
 \begin{frame}
 
 ### \subsecname
-#### How Feasible is \TeX?
+#### Is \TeX{} Up to the Task?
 
 There exist formal language parsers written solely in \TeX. These parsers
 recognize regular [@l3proj16] and context-free LL(1) languages [@carliste00].
@@ -496,18 +508,42 @@ possible, but generally a bad idea:
 \begin{frame}
 
 ### \subsecname
-#### Enter the Lunamark
+#### The Lunamark Library
 
   * Lunamark [@macfarlane16-2] is a Markdown parser for Lua.
-  * The parser is written using a Parsing Expression Grammar (PEG) through the
-    LPeg C library.
+  * The language is specified using a Parsing Expression Grammar
+    (PEG) via the LPeg C library (with some cheating).
     * PEGs are CFGs with ordered choice; as a corrolary, any PEG is
       unambiguous. [@ford04] The parse tree for any PEG $G$ and an input word
       $u$ can be computed in linear time relative to $|u|$ via „packrat
-      parsing“. [@ford02]
-  * All the libraries used by the parser were either statically compiled
-    into Lua\TeX, or unneeded.
+      parsing“. [@ford02] PEGs${}\subset{}$CFGs is conjectured.
+  * The dependencies of Lunamark were all either compiled into Lua\TeX{}
+    (LPeg, Slnunicode), or unneeded (Cosmo, Alt-getopt).
   * The library has been released under the Expat (MIT) License.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### The Lunamark Library
+
+The modified version of Lunamark:
+
+  * produces a parse tree rather than presentation markup:
+    ```markdown
+    # Heading
+    This is [a link](#link).
+    ```
+    \becomes
+    ```tex
+    \markdownRendererHeadingOne{Heading}
+    This is \markdownRendererLink{a link}{#link}{#link}{}.
+    ```
+
+The user:
+
+  * converts a Markdown document to the parse tree via Lunamark,
+  * defines the macros and typesets the parse tree using \TeX{}.
 
 \end{frame}
 
@@ -563,10 +599,63 @@ Foo bar\footnote[frame]{See \url{http://link.com} (Link)}.
   * Some syntax extensions were already supported by Lunamark:
     * footnotes,
     * definition lists,
-    * hash enumerators.
   * New syntax extensions were added as a part of the project:
     * citations,
     * fenced code blocks.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Syntax Extensions -- `\markdownSetup{footnotes}`
+
+```tex
+Here is a footnote reference,[^1] and another.[^long]
+
+[^1]: Here is the footnote.
+
+[^long]: Here’s one with multiple blocks.
+
+    Subsequent paragraphs are indented to show that
+they belong to the footnote.
+```
+
+\vfill
+  
+Here is a footnote reference,[^1] and another.[^long]
+
+[^1]: Here is the footnote.
+
+[^long]: Here’s one with multiple paragraphs.
+
+    Subsequent paragraphs are indented to show that
+they belong to the footnote.
+
+\end{frame}
+\begin{frame}
+
+### \subsecname
+#### Syntax Extensions -- `\markdownSetup{definitionLists}`
+
+```tex
+Term 1
+:   Definition
+
+Term 2
+:   Definition with
+
+    multiple paragraphs
+```
+
+\vfill
+  
+Term 1
+:   Definition 1
+
+Term 2
+:   Definition
+
+    with multiple paragraphs
 
 \end{frame}
 \begin{frame}
@@ -600,18 +689,20 @@ several @knuth86 [pp. 33-35; @gruber13, chap. 1].
 
 ```
 ~~~ js
-if (a > 3) {
-  moveShip(5 * gravity, DOWN);
-}
+if (a > b)
+  return c + 4;
+else
+  return d + 5;
 ~~~~~~
 ```
 
 \vfill
 
 ~~~ js
-if (a > 3) {
-  moveShip(5 * gravity, DOWN);
-}
+if (a > b)
+  return c + 4;
+else
+  return d + 5;
 ~~~~~~
 
 \end{frame}
@@ -623,15 +714,16 @@ if (a > 3) {
 ### \secname
 #### The Missing Pieces of the Puzzle
 
-  * Apart from the \LaTeX{} interface, the package also exposes Lua, plain
-    \TeX{} and Con\TeX t interfaces.
-  * The package includes 82 pages of user and technical documentation.
-    [@novotny16-2]
-  * A section on writing \LaTeX{} documents in Markdown was added to the
-    fithesis3 sample documents.
-  * The package was released under the \LaTeX{} Project Public License (LPPL)
-    1.3 on the Comprehensive \TeX{} Archive Network (CTAN), GitHub, and the
-    faculty GitLab. [@novotny16-1]
+ * Apart from the \LaTeX{} interface, the package also exposes Lua, plain
+   \TeX{} and Con\TeX t interfaces.
+ * The package includes 82 pages of user and technical documentation.
+   [@novotny16-2]
+ * A section on writing \LaTeX{} documents in Markdown was added to the
+   fithesis3 sample documents.
+ * The package was released under the \LaTeX{} Project Public License (LPPL)
+   1.3 on the Comprehensive \TeX{} Archive Network (CTAN), GitHub, and the
+   faculty GitLab. [@novotny16-1] It is available in updated \TeX{} Live
+   2016.
 
 \end{frame}
 \begin{frame}
@@ -645,10 +737,10 @@ if (a > 3) {
   * The package was featured on the twitter profile of Overleaf -- a major
     online service for preparing \LaTeX{} documents -- along with original
     example documents. [@overleaf16]
-  * The package was mentioned in the bulletin of the German \TeX{} Users Group
+  * The package was reviewed in the bulletin of the German \TeX{} Users Group
     (DANTE e.V.). [@fenn16, pp. 43]
-  * An article about the package has been submitted to the bulletin of the
-    Czechoslovak \TeX{} Users Group (CSTUG).
+  * An article about the package has been accepted for publication in the
+    bulletin of the Czechoslovak \TeX{} Users Group (CSTUG).
 
 \end{frame}
 
@@ -660,5 +752,7 @@ if (a > 3) {
 \end{frame}
 
 \markdownEnd
+\ifdarkframes
 \end{darkframes}
+\fi
 \end{document}
