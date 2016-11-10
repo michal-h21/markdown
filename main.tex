@@ -88,9 +88,9 @@
   langid        =   {english},
 }
 
-@ONLINE{gruber13,
+@ONLINE{gruber04,
   author        =   {John Gruber},
-  year          =   {2013},
+  year          =   {2004},
   title         =   {Markdown},
   urldate       =   {2016-08-15},
   url           =   {https://daringfireball.net/projects/markdown/}, 
@@ -165,7 +165,7 @@
   pagetotal     =   {xviii, 273},
   publisher     =   {Green Tea Press},
   langid        =   {english},
-  url           =   {https://thinkjava.org/},
+  url           =   {http://thinkjava.org/},
   urldate       =   {2016-11-08},
 }
 
@@ -317,6 +317,7 @@
   3. Steep Learning Curve
 
 \end{frame}
+\iffalse
 \begin{frame}
 
 ### \subsecname
@@ -330,13 +331,39 @@
 > biggest source of inspiration for Markdown’s syntax is *the format of plain
 > text email*.
 
-\hfill --- @gruber13, emphasis mine
+\hfill --- @gruber04, emphasis mine
+
+\end{frame}
+\fi
+\begin{frame}
+
+### \subsecname
+#### Comparison of \LaTeX{} and Markdown
+
+\footnotesize
+```tex
+\section{This is a level one heading}
+This is a text paragraph with \emph{emphasis}.
+\begin{quotation}This paragraph will show as a quote.\end{quotation}
+\begin{verbatim}
+This is is a source code example.
+\end{verbatim}
+\begin{itemize}
+  \item First item with \alert{strong emphasis}
+  \item Second item with a link%
+    \footnote{See \url{http://link.com} (Title)}
+\end{itemize}
+\begin{enumerate}
+  \item First item with \verb`inline code`.
+  \item Second item with an \includegraphics{image.png}
+\end{enumerate}
+```
 
 \end{frame}
 \begin{frame}
 
 ### \subsecname
-#### The Language of Markdown
+#### Comparison of \LaTeX{} and Markdown
 
 ```markdown
 # This is a level one heading
@@ -408,8 +435,6 @@ This is a text paragraph with _emphasis_.
     This is \protect\hyperlink{link}{a link}.
     ```
   2. Not a Part of \TeX{} Distributions
-    * Documents no longer produce stable output even if the \TeX{}
-      distribution version is held constant.
     * Markdown documents cannot be directly edited at collaborative \TeX{}
       platforms such as Share\LaTeX{} or Overleaf.
 
@@ -478,8 +503,7 @@ possible, but generally a bad idea:
 \vfill
 
 > Lua\TeX{} is an extended version of pdf\TeX{} using Lua as an embedded
-> scripting language. […] In September 2016 we released version 1.0 which
-> will be on \TeX live 2017.
+> scripting language.
 
 \hfill --- @luatex16
 
@@ -540,7 +564,7 @@ The modified version of Lunamark:
     This is \markdownRendererLink{a link}{#link}{#link}{}.
     ```
 
-The user:
+The Markdown \TeX{} package:
 
   * converts a Markdown document to the parse tree via Lunamark,
   * defines the macros and typesets the parse tree using \TeX{}.
@@ -552,22 +576,22 @@ The user:
 \begin{frame}
 
 ### \subsecname
-#### The Hybrid and Sandbox Modes
+#### The Sandbox and Hybrid Modes
 
 ```tex
 \documentclass{article}
 \usepackage{markdown}
 \begin{document}
-\begin{markdown*}{hybrid}
-  Foo bar \TeX{} $2^n$.
-\end{markdown*}
 \begin{markdown}
   Foo bar \TeX{} $2^n$.
 \end{markdown}
+\begin{markdown*}{hybrid}
+  Foo bar \TeX{} $2^n$.
+\end{markdown*}
 \end{document}
 ```
 
-Foo bar \TeX{} $2^n$. Foo bar \markdownRendererBackslash TeX\markdownRendererLeftBrace{}\markdownRendererRightBrace{} \markdownRendererDollarSign{}2\markdownRendererCircumflex{}n\markdownRendererDollarSign{}.
+Foo bar \markdownRendererBackslash TeX\markdownRendererLeftBrace{}\markdownRendererRightBrace{} \markdownRendererDollarSign{}2\markdownRendererCircumflex{}n\markdownRendererDollarSign{}. Foo bar \TeX{} $2^n$.
 
 \end{frame}
 \begin{frame}
@@ -666,20 +690,20 @@ Term 2
 ```tex
 Here is a parenthetical citation [@knuth86] and
 a string of several [see @knuth86, pp. 33-35;
-also @gruber13, chap. 1].
+also @gruber04, chap. 1].
 
 Here is a text citation @knuth86 and a string of
-several @knuth86 [pp. 33-35; @gruber13, chap. 1].
+several @knuth86 [pp. 33-35; @gruber04, chap. 1].
 ```
 
 \vfill
   
 Here is a parenthetical citation [@knuth86] and
 a string of several [see @knuth86, pp. 33-35;
-also @gruber13, chap. 1].
+also @gruber04, chap. 1].
 
 Here is a text citation @knuth86 and a string of
-several @knuth86 [pp. 33-35; @gruber13, chap. 1].
+several @knuth86 [pp. 33-35; @gruber04, chap. 1].
 
 \end{frame}
 \begin{frame}
@@ -748,6 +772,7 @@ else
 
 \begin{frame}[allowframebreaks]
 ### \secname
+\nocite{*}
 \printbibliography
 \end{frame}
 
