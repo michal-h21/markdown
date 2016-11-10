@@ -538,10 +538,11 @@ possible, but generally a bad idea:
   * The language is specified using a Parsing Expression Grammar
     (PEG) via the LPeg C library (with some cheating).
     * PEGs are CFGs with ordered choice; as a corrolary, any PEG is
-      unambiguous. [@ford04] The parse tree for any PEG $G$ and an input word
-      $u$ can be computed in linear time relative to $|u|$ via „packrat
-      parsing“. [@ford02] PEGs${}\subset{}$CFGs is conjectured.
-  * The dependencies of Lunamark were all either compiled into Lua\TeX{}
+      unambiguous. [@ford04] An input word $u$ can be parsed according to a PEG
+      $G$ in linear time relative to the size of $u$. [@ford02] It is
+      conjectured that not all CFLs are recognized by a PEG.
+    * The dependencies of Lunamark were all either
+      compiled into Lua\TeX{}
     (LPeg, Slnunicode), or unneeded (Cosmo, Alt-getopt).
   * The library has been released under the Expat (MIT) License.
 
