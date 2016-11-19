@@ -2811,6 +2811,17 @@ function M.reader.new(writer, options)
   else
     NoteBlock = fail
   end
+
+  function self.inline_note(note)
+    return function()
+      return writer.note(parse_inlines(note))
+    end
+  end
+
+  local InlineNote = fail
+  if options.footnotes then
+    InlineNote = lbracket * circumflex * C((anyescaped - rbracket)^1) * rbracket / self.inline_note
+  end
 %    \end{macrocode}
 % \paragraph{Link and Image \acro{peg} Patterns}
 %  \begin{macrocode}
@@ -3295,6 +3306,7 @@ function M.reader.new(writer, options)
                             + V("UlOrStarLine")
                             + V("Strong")
                             + V("Emph")
+                            + V("InlineNote")
                             + V("NoteRef")
                             + V("Citations")
                             + V("Link")
@@ -3313,6 +3325,7 @@ function M.reader.new(writer, options)
       Strong                = Strong,
       Emph                  = Emph,
       NoteRef               = NoteRef,
+      InlineNote            = InlineNote,
       Citations             = Citations,
       Link                  = Link,
       Image                 = Image,
